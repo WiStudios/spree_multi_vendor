@@ -1,5 +1,5 @@
 Spree::Core::Engine.routes.draw do
-  namespace :admin do
+  namespace :admin, path: Spree.admin_path do
     resources :vendors do
       collection do
         post :update_positions
