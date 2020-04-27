@@ -10,7 +10,7 @@ Deface::Override.new(
                 <% end %>
                 <% if defined?(current_spree_vendor) && current_spree_vendor %>
                   <ul class="nav nav-sidebar">
-                    <%= tab Spree::Vendor.model_name.human, url: admin_vendor_settings_path, icon: 'money' %>
+                    <%= tab "Profile", url: admin_vendor_settings_path, icon: 'user' %>
                   </ul>
                 <% end %>
               HTML
