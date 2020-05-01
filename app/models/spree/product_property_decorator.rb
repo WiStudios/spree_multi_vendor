@@ -9,4 +9,5 @@ module Spree::ProductPropertyDecorator
   end
 end
 
-Spree::ProductProperty.prepend Spree::ProductPropertyDecorator
+# Commented this code because above modifications restricts us to save any product property
+#Spree::ProductProperty.prepend Spree::ProductPropertyDecorator
