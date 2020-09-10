@@ -28,7 +28,16 @@ Deface::Override.new(
                 <strong><%= Spree.t(:commission) %></strong>
               </td>
               <td id='order_commission'>
-                <%= current_spree_vendor ? @order.display_vendor_commission(current_spree_vendor) : @order.display_order_commission %>
+                <% if current_spree_vendor %>
+                  <%= @order.display_vendor_commission(current_spree_vendor) %>
+                <% elsif @order.commissions.present? %>
+                  <% @order.commissions.each do |vendor_commission| %>
+                    <%= vendor_commission.vendor.name %> - <%= Spree::Money.new(vendor_commission.amount, {currency: @order.currency}) %> <br/>
+                  <% end %>
+                  <%= @order.commissions.count > 1 ? "Total - " + @order.display_order_commission.to_s : "" %>
+                <% else %>
+                  <%= @order.display_order_commission %>
+                <% end %>
               </td>
           </tr>
     HTML
