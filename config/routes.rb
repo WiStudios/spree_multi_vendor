@@ -4,7 +4,7 @@ Spree::Core::Engine.routes.draw do
     patch 'profile' => 'vendor_settings#update', constraints: {subdomain: ENV.fetch('VENDOR_SUBDOMAIN', 'authors')}
   end 
   namespace :admin, path: Spree.admin_path do
-    resources :vendors do
+    resources :vendors, path: "authors" do
       collection do
         post :update_positions
       end

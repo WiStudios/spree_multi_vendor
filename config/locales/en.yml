@@ -2,8 +2,8 @@ en:
   activerecord:
     models:
       spree/vendor:
-        one: Vendor
-        other: Vendors
+        one: Author
+        other: Authors
     attributes:
       spree/vendor:
         about_us: About us
@@ -14,17 +14,17 @@ en:
         created_at: created at
         priority: priority
   spree:
-    back_to_vendors_list: Back To Vendors List
-    edit_vendor: Edit Vendor
-    new_vendor: New Vendor
+    back_to_vendors_list: Back To Authors List
+    edit_vendor: Edit Author
+    new_vendor: New Author
     only_alphanumeric_chars: should contain only letters and digits
     order_mailer:
       vendor_notification_email:
-        dear_vendor: Dear Vendor,
-        subject: Vendor notification
+        dear_vendor: Dear Author,
+        subject: Author notification
         thanks: Thanks
-    vendor: Vendor
-    vendor_name: Vendor Name
+    vendor: Author
+    vendor_name: Author Name
     vendor_states:
       active: Active
       blocked: Blocked
