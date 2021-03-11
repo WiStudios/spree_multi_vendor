@@ -25,7 +25,7 @@ Deface::Override.new(
     text: <<-HTML
             <tr>
               <td data-hook='admin_order_tab_commission'>
-                <strong><%= Spree.t(:commission) %>:</strong>
+                <strong><%= Spree.t('admin.commission') %>:</strong>
               </td>
               <td id='order_commission'>
                 <% if current_spree_vendor %>
