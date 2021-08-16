@@ -15,6 +15,7 @@ en:
         priority: priority
   spree:
     back_to_vendors_list: Back To Contributors List
+    blocked: Blocked
     edit_vendor: Edit Contributor
     new_vendor: New Contributor
     only_alphanumeric_chars: should contain only letters and digits

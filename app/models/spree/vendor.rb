@@ -7,31 +7,25 @@ module Spree
     friendly_id :name, use: %i[slugged history]
 
     validates :name,
-      presence: true,
-      uniqueness: { case_sensitive: false }
+              presence: true,
+              uniqueness: { case_sensitive: false }
 
     validates :slug, uniqueness: true
-    if Spree.version.to_f >= 3.6
-      validates_associated :image
-    end
+    validates_associated :image if Spree.version.to_f >= 3.6
 
     validates :notification_email, email: true, allow_blank: true
 
     with_options dependent: :destroy do
-      if Spree.version.to_f >= 3.6
-        has_one :image, as: :viewable, dependent: :destroy, class_name: 'Spree::VendorImage'
-      end
+      has_one :image, as: :viewable, dependent: :destroy, class_name: 'Spree::VendorImage'
       has_many :commissions, class_name: 'Spree::OrderCommission'
-      has_many :option_types
-      has_many :products
-      has_many :properties
-      has_many :shipping_methods
-      has_many :stock_locations
-      has_many :variants
       has_many :vendor_users
+
+      SpreeMultiVendor::Config[:vendorized_models].uniq.compact.each do |model|
+        has_many model.pluralize.to_sym
+      end
     end
 
-    has_many :users, through: :vendor_users
+    has_many :users, through: :vendor_users, class_name: Spree.user_class.to_s
 
     after_create :create_stock_location
     after_update :update_stock_location_names
@@ -52,6 +46,16 @@ module Spree
 
     def update_notification_email(email)
       update(notification_email: email)
+    end
+
+    # Spree Globalize support
+    # https://github.com/spree-contrib/spree_multi_vendor/issues/104
+    if defined?(SpreeGlobalize)
+      attr_accessor :translations_attributes
+      translates :name,
+                 :about_us,
+                 :contact_us,
+                 :slug, fallbacks_for_empty_translations: true
     end
 
     private
