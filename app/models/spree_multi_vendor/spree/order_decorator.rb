@@ -1,8 +1,10 @@
 module SpreeMultiVendor::Spree::OrderDecorator
   def self.prepended(base)
     base.has_many :commissions, class_name: 'Spree::OrderCommission'
-    base.state_machine.after_transition to: :complete, do: :generate_order_commissions
-    base.state_machine.after_transition to: :complete, do: :send_notification_mails_to_vendors
+    # TODO: Manually configure this transition in checkout.rb
+    # base.state_machine.after_transition to: :complete, do: :generate_order_commissions
+    # Commented below line because we don't want to inform vendors for each order placed
+    # base.state_machine.after_transition to: :complete, do: :send_notification_mails_to_vendors
   end
 
   def generate_order_commissions
