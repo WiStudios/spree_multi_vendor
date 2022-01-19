@@ -3,14 +3,14 @@ module Spree
     class VendorsController < ResourceController
 
       def create
-        if permitted_resource_params[:image] && Spree.version.to_f >= 3.6
+        if permitted_resource_params[:image]
           @vendor.build_image(attachment: permitted_resource_params.delete(:image))
         end
         super
       end
 
       def update
-        if permitted_resource_params[:image] && Spree.version.to_f >= 3.6
+        if permitted_resource_params[:image]
           @vendor.create_image(attachment: permitted_resource_params.delete(:image))
         end
         format_translations if defined? SpreeGlobalize
@@ -40,8 +40,16 @@ module Spree
         @search = vendors.ransack(params[:q])
 
         @collection = @search.result.
+            includes(vendor_includes).
             page(params[:page]).
             per(params[:per_page])
+      end
+
+      def vendor_includes
+        {
+          image: [],
+          products: []
+        }
       end
 
       def format_translations
