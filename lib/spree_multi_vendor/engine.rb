@@ -1,3 +1,5 @@
+require_relative 'configuration'
+
 module SpreeMultiVendor
   class Engine < Rails::Engine
     require 'spree/core'
@@ -13,10 +15,18 @@ module SpreeMultiVendor
       SpreeMultiVendor::Config = SpreeMultiVendor::Configuration.new
     end
 
+    config.after_initialize do
+      ::Spree::PermittedAttributes.product_attributes << :vendor_id if SpreeMultiVendor::Config[:vendorized_models].include?('product')
+    end
+
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
+    end
+
+    def self.api_v1_available?
+      @@api_v1_available ||= Gem::Specification.find_all_by_name('spree_api_v1').any?
     end
 
     config.to_prepare &method(:activate).to_proc
